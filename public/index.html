@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM Maison Philippe Viallet</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍇</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--wine:#722f37;--dark:#2a1f14;--cream:#f5f1ea;--card:#fff;--border:#e8e2d4;--muted:#8a7e6b;--text:#2a1f14;--bg2:#f8f5f0}
+body{font-family:Palatino,Georgia,serif;background:var(--cream);color:var(--text);min-height:100vh}
+input,select,textarea,button{font-family:inherit}
+.header{background:linear-gradient(135deg,#2a1f14 0%,#3d2028 50%,#722f37 100%);padding:16px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.header h1{color:#fff;font-size:21px;letter-spacing:-0.3px}
+.header .sub{color:rgba(255,255,255,0.45);font-size:11px;letter-spacing:2.5px;text-transform:uppercase;font-family:system-ui}
+.header-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.header-actions span{color:rgba(255,255,255,0.6);font-size:13px;font-family:system-ui}
+.header-actions b{color:#fff}
+.hbtn{padding:8px 14px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:#fff;cursor:pointer;font-weight:600;font-size:12px;transition:background 0.15s}
+.hbtn:hover{background:rgba(255,255,255,0.22)}
+.hbtn.logout{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.6)}
+.tabs{padding:10px 28px;background:#fff;border-bottom:1px solid var(--border);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.tab{padding:9px 18px;border:none;background:transparent;color:#5a4e3c;border-radius:10px;cursor:pointer;font-weight:700;font-size:14px;transition:all 0.15s}
+.tab.active{background:var(--wine);color:#fff}
+.tab:hover:not(.active){background:#f0ebe0}
+.tab .cnt{background:#e8e2d4;padding:2px 9px;border-radius:12px;font-size:11px;font-weight:800;margin-left:6px}
+.tab.active .cnt{background:rgba(255,255,255,0.25)}
+.content{padding:24px 28px;max-width:1200px;margin:0 auto}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px}
+@media(max-width:800px){.grid2,.grid3{grid-template-columns:1fr}.grid4{grid-template-columns:1fr 1fr}.header{padding:12px 16px}.content{padding:16px}.tabs{padding:8px 16px}.pipeline{grid-template-columns:1fr 1fr!important}}
+@media(max-width:500px){.grid4{grid-template-columns:1fr}.pipeline{grid-template-columns:1fr!important}}
+.kpi{background:var(--card);border-radius:14px;padding:20px 24px;border:1px solid var(--border);position:relative;overflow:hidden}
+.kpi .bar{position:absolute;top:0;left:0;width:4px;height:100%}
+.kpi .label{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);font-weight:700;margin-bottom:8px}
+.kpi .val{font-size:28px;font-weight:800;color:var(--text);line-height:1}
+.kpi .icon{position:absolute;top:18px;right:20px;font-size:28px;opacity:0.15}
+.card{background:var(--card);border-radius:14px;border:1px solid var(--border);padding:22px;margin-bottom:20px}
+.card h4{margin:0 0 16px;font-size:17px}
+table{width:100%;border-collapse:collapse}
+th{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);font-weight:700;padding:12px 16px;text-align:left;background:var(--bg2);border-bottom:2px solid #e5dfcf}
+td{padding:12px 16px;border-bottom:1px solid #f0ebe0;font-size:14px}
+tr.click{cursor:pointer;transition:background 0.1s}
+tr.click:hover{background:var(--bg2)}
+.badge{display:inline-block;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap;letter-spacing:0.3px}
+.inp{padding:10px 14px;border:1px solid #cdc5b4;border-radius:10px;font-size:14px;background:#fffdf9;width:100%;outline:none;transition:border 0.2s}
+.inp:focus{border-color:var(--wine)}
+.lbl{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);font-weight:700;margin-bottom:5px}
+.btn{display:inline-block;padding:10px 22px;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:14px;transition:all 0.15s;text-align:center}
+.btn-p{background:var(--wine);color:#fff;box-shadow:0 2px 8px rgba(114,47,55,0.2)}
+.btn-p:hover{background:#8a3a44}
+.btn-s{background:#f0ebe0;color:#4a3f30}
+.btn-s:hover{background:#e5ddd0}
+.btn-sm{padding:7px 14px;font-size:12px}
+.btn-danger{background:#e74c3c;color:#fff}
+.btn-danger:hover{background:#c0392b}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-grid .full{grid-column:1/-1}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr}}
+.pipeline{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;overflow-x:auto}
+.pipe-card{background:#fff;border-radius:12px;padding:14px;border:1px solid var(--border);margin-bottom:10px;cursor:pointer;transition:all 0.15s}
+.pipe-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+.toast{position:fixed;top:20px;right:20px;background:var(--dark);color:#fff;padding:12px 24px;border-radius:12px;font-size:14px;font-weight:600;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,0.2);animation:si .3s}
+@keyframes si{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+.detail-info{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;padding:20px;background:var(--bg2);border-radius:12px;margin-top:20px}
+.detail-info .full{grid-column:1/-1}
+.stages-bar{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.sbtn{padding:6px 14px;border-radius:20px;border:1px solid #ddd;background:#fff;cursor:pointer;font-weight:600;font-size:12px;transition:all 0.15s}
+.sbtn:hover{border-color:#999}
+.activity-item{padding:10px 0;border-bottom:1px solid #f0ebe0;display:flex;justify-content:space-between;align-items:center}
+.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#2a1f14 0%,#3d2028 40%,#722f37 100%)}
+.login-box{background:#fffdf9;border-radius:20px;padding:48px 44px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+.login-btn{width:100%;padding:14px;border:2px solid var(--border);border-radius:12px;background:#fff;cursor:pointer;font-size:16px;font-weight:600;color:var(--text);transition:all 0.15s;margin-bottom:8px}
+.login-btn:hover{border-color:var(--wine);background:#fdf0f0}
+.dot{display:inline-block;width:8px;height:8px;border-radius:4px;margin-right:6px}
+.back-btn{background:none;border:none;color:var(--wine);font-weight:700;cursor:pointer;font-size:14px;margin-bottom:16px}
+.ellipsis{max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wt{color:var(--wine);font-weight:800}
+.mt{color:var(--muted)}
+.reset-btn{padding:6px 12px;background:none;border:1px solid #ddd;border-radius:8px;cursor:pointer;font-size:11px;color:#aaa;margin-left:auto}
+.reset-btn:hover{border-color:#999;color:#666}
+/* Team management */
+.team-card{background:#fff;border-radius:14px;border:1px solid var(--border);padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:all 0.15s}
+.team-card:hover{box-shadow:0 2px 12px rgba(0,0,0,0.05)}
+.team-name{font-size:17px;font-weight:700;display:flex;align-items:center;gap:10px}
+.team-stats{display:flex;gap:16px;font-size:13px;color:var(--muted)}
+.team-stats b{color:var(--text)}
+.add-rep-row{display:flex;gap:10px;margin-bottom:24px}
+.team-grid{display:grid;gap:12px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+// ─── Config ───
+const TYPES=["GMS","CHR","Caviste","Grossiste","Export","Autre"];
+const STAGES=["Prospect","1er Contact","Dégustation","Négociation","Référencé","Perdu"];
+const DEPTS=["73 - Savoie","74 - Haute-Savoie","38 - Isère","69 - Rhône","01 - Ain","26 - Drôme","42 - Loire","07 - Ardèche","43 - Haute-Loire","63 - Puy-de-Dôme","15 - Cantal","03 - Allier"];
+const VTYPES=["Prospection","Dégustation","Suivi","Commande","Réclamation","Salon"];
+const IC={GMS:"🏪",CHR:"🍽️",Caviste:"🍷",Grossiste:"📦",Export:"✈️",Autre:"📋"};
+const SCC={Prospect:"#9e9484","1er Contact":"#6b87ad","Dégustation":"#8b6bab","Négociation":"#c49a2e","Référencé":"#4e8f58",Perdu:"#a86b6b"};
+const fmt=n=>new Intl.NumberFormat("fr-FR",{style:"currency",currency:"EUR",minimumFractionDigits:0}).format(n);
+
+// ─── State ───
+let S={user:null,tab:"dash",sel:null,form:null,fd:{},search:"",fType:"Tous",fRep:"Tous",
+  reps:[],clients:[],visits:[],orders:[],toast:"",saving:false,newRepName:""};
+
+// ─── API ───
+async function apiLoad(){try{const r=await fetch('/api/data');return await r.json();}catch(e){return null;}}
+async function apiSave(d){S.saving=true;R();try{await fetch('/api/data',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});}catch(e){}S.saving=false;R();}
+async function apiReset(){try{const r=await fetch('/api/reset',{method:'POST'});return await r.json();}catch(e){return null;}}
+function toast(m){S.toast=m;R();setTimeout(()=>{S.toast="";R();},2500);}
+function persist(){apiSave({reps:S.reps,clients:S.clients,visits:S.visits,orders:S.orders});}
+function cn(id){return S.clients.find(c=>c.id===id)?.n||"?";}
+function esc(s){if(!s)return'';const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+function opts(arr,sel,all){let h=all?'<option>Tous</option>':'<option value="">-- Choisir --</option>';arr.forEach(a=>{h+=`<option${a===sel?' selected':''}>${a}</option>`;});return h;}
+function badge(t,st){const c=SCC[t]||SCC[st];return c?`<span class="badge" style="background:${c}20;color:${c}">${esc(t)}</span>`:`<span class="badge">${esc(t)}</span>`;}
+function kpi(l,v,c,i){return`<div class="kpi"><div class="bar" style="background:${c}"></div><div class="label">${l}</div><div class="val">${v}</div><span class="icon">${i}</span></div>`;}
+
+// ─── Render ───
+function R(){
+  const a=document.getElementById('app');
+  if(!S.user){a.innerHTML=renderLogin();return;}
+  let h='';
+  if(S.toast)h+=`<div class="toast">${esc(S.toast)}</div>`;
+  h+=renderHeader()+renderTabs()+'<div class="content">';
+  if(S.form)h+=renderForm();
+  else if(S.sel)h+=renderDetail();
+  else if(S.tab==='dash')h+=renderDash();
+  else if(S.tab==='clients')h+=renderClients();
+  else if(S.tab==='pipe')h+=renderPipeline();
+  else if(S.tab==='visits')h+=renderVisits();
+  else if(S.tab==='team')h+=renderTeam();
+  h+='</div>';
+  a.innerHTML=h;
+}
+
+// ─── LOGIN ───
+function renderLogin(){
+  let b=S.reps.map(r=>`<button class="login-btn" onclick="doLogin('${esc(r)}')">${esc(r)}</button>`).join('');
+  return`<div class="login-screen"><div class="login-box">
+    <div style="font-size:48px;margin-bottom:12px">🍇</div>
+    <h1 style="font-size:26px;color:var(--dark);margin-bottom:4px">Maison Philippe Viallet</h1>
+    <p style="font-size:13px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:32px;font-family:system-ui">CRM Commercial</p>
+    <p style="font-size:15px;color:#5a4e3c;margin-bottom:20px">Bonjour ! Qui êtes-vous ?</p>
+    ${b}
+    <p style="margin-top:16px;font-size:12px;color:var(--muted)">Équipe non listée ? Demandez à l'administrateur de vous ajouter.</p>
+  </div></div>`;
+}
+
+// ─── HEADER ───
+function renderHeader(){
+  return`<div class="header"><div style="display:flex;align-items:center;gap:16px">
+    <span style="font-size:32px">🍇</span>
+    <div><h1>Maison Philippe Viallet</h1><p class="sub">CRM Commercial</p></div>
+  </div><div class="header-actions">
+    <span>Connecté : <b>${esc(S.user)}</b></span>
+    ${S.saving?'<span style="color:rgba(255,255,255,0.4);font-size:11px;font-family:system-ui">Sauvegarde...</span>':''}
+    <button class="hbtn" onclick="openNewVisit()">+ Visite</button>
+    <button class="hbtn" onclick="openNewClient()">+ Client</button>
+    <button class="hbtn logout" onclick="doLogout()">Déconnexion</button>
+  </div></div>`;
+}
+
+// ─── TABS ───
+function renderTabs(){
+  const t=(k,l,c)=>{const ac=S.tab===k?'active':'';const cn2=c!==undefined?`<span class="cnt">${c}</span>`:'';return`<button class="tab ${ac}" onclick="switchTab('${k}')">${l}${cn2}</button>`;};
+  return`<div class="tabs">
+    ${t('dash','Tableau de bord')}${t('clients','Clients',S.clients.length)}${t('pipe','Pipeline')}${t('visits','Visites',S.visits.length)}${t('team','Équipe ⚙️',S.reps.length)}
+    <button class="reset-btn" onclick="doReset()">Réinitialiser</button>
+  </div>`;
+}
+
+// ─── TEAM MANAGEMENT ───
+function renderTeam(){
+  let h=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+    <div><h2 style="font-size:22px">Gestion de l'équipe</h2><p style="color:var(--muted);font-size:14px;margin-top:4px">Ajoutez ou retirez des commerciaux. Les modifications sont partagées avec toute l'équipe.</p></div>
+  </div>`;
+
+  // Add new rep
+  h+=`<div class="add-rep-row">
+    <input class="inp" style="flex:1;max-width:300px;background:#fff" placeholder="Prénom du nouveau commercial..." id="newRepInput" value="${esc(S.newRepName)}" oninput="S.newRepName=this.value" onkeydown="if(event.key==='Enter')doAddRep()">
+    <button class="btn btn-p" onclick="doAddRep()">+ Ajouter</button>
+  </div>`;
+
+  // List reps
+  h+=`<div class="team-grid">`;
+  S.reps.forEach((rep,i)=>{
+    const rc=S.clients.filter(c=>c.rp===rep);
+    const rv=S.visits.filter(v=>v.rp===rep);
+    const ca=rc.reduce((a,c)=>a+c.ca,0);
+    const isCurrentUser=rep===S.user;
+    h+=`<div class="team-card">
+      <div style="display:flex;align-items:center;gap:16px;flex:1;flex-wrap:wrap">
+        <div class="team-name">
+          <div style="width:42px;height:42px;border-radius:50%;background:${['#722f37','#4e8f58','#6b87ad','#c49a2e','#8b6bab','#9e9484'][i%6]}15;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:${['#722f37','#4e8f58','#6b87ad','#c49a2e','#8b6bab','#9e9484'][i%6]}">${esc(rep.charAt(0))}</div>
+          ${esc(rep)}
+          ${isCurrentUser?'<span class="badge" style="background:#722f3715;color:#722f37">Vous</span>':''}
+        </div>
+        <div class="team-stats">
+          <span><b>${rc.length}</b> clients</span>
+          <span><b>${rv.length}</b> visites</span>
+          <span><b>${fmt(ca)}</b></span>
+        </div>
+      </div>
+      <button class="btn btn-sm ${rc.length>0?'btn-s':'btn-danger'}" onclick="doRemoveRep(${i})" ${isCurrentUser?'disabled style="opacity:0.3;cursor:not-allowed"':''}
+        title="${rc.length>0?'Ce commercial a des clients attribués. Réaffectez-les d\'abord.':isCurrentUser?'Vous ne pouvez pas vous supprimer vous-même':'Supprimer ce commercial'}">${rc.length>0?'Réaffecter d\'abord':'Supprimer'}</button>
+    </div>`;
+  });
+  h+=`</div>`;
+
+  // Info box
+  h+=`<div class="card" style="margin-top:24px;background:var(--bg2);border:1px dashed #cdc5b4">
+    <h4 style="font-size:15px;margin-bottom:8px">💡 Comment ça marche</h4>
+    <p style="font-size:14px;color:#5a4e3c;line-height:1.7">
+      Les commerciaux ajoutés ici apparaissent automatiquement sur l'écran de connexion et dans tous les formulaires (fiches clients, visites, etc.).
+      <br><br>Pour supprimer un commercial qui a des clients attribués, réaffectez d'abord ses clients à un autre commercial via leurs fiches individuelles. Vous ne pouvez pas supprimer votre propre compte.
+    </p>
+  </div>`;
+  return h;
+}
+
+// ─── DASHBOARD ───
+function renderDash(){
+  const totalCA=S.clients.reduce((a,c)=>a+c.ca,0);
+  const refs=S.clients.filter(c=>c.st==="Référencé").length;
+  const pipe=S.clients.filter(c=>!["Référencé","Perdu"].includes(c.st)).length;
+  let h=`<div class="grid4">${kpi("CA 2025",fmt(totalCA),"var(--wine)","💰")}${kpi("Clients réf.",refs,"#4e8f58","✅")}${kpi("En pipeline",pipe,"#c49a2e","🎯")}${kpi("Visites",S.visits.length,"#6b87ad","🚗")}</div><div class="grid2">`;
+  // Perf table
+  h+=`<div class="card"><h4>Performance commerciaux</h4><table><thead><tr><th>Commercial</th><th>Clients</th><th>Réf.</th><th>Visites</th><th>CA 2025</th></tr></thead><tbody>`;
+  S.reps.forEach(rp=>{const rc=S.clients.filter(c=>c.rp===rp);if(rc.length===0&&S.visits.filter(v=>v.rp===rp).length===0)return;h+=`<tr><td style="font-weight:700">${esc(rp)}</td><td>${rc.length}</td><td>${rc.filter(c=>c.st==="Référencé").length}</td><td>${S.visits.filter(v=>v.rp===rp).length}</td><td class="wt">${fmt(rc.reduce((a,c)=>a+c.ca,0))}</td></tr>`;});
+  h+=`</tbody></table></div>`;
+  // Recent
+  h+=`<div class="card"><h4>Dernière activité</h4>`;
+  [...S.visits].sort((a,b)=>b.dt.localeCompare(a.dt)).slice(0,6).forEach(v=>{const col=v.rs==="Positif"?"#4e8f58":v.rs==="Négatif"?"#a86b6b":"#c49a2e";h+=`<div class="activity-item"><div style="font-size:14px"><b>${esc(cn(v.cid))}</b> <span class="mt" style="font-size:13px">— ${esc(v.tp)} par ${esc(v.rp)}</span></div><div style="display:flex;align-items:center;gap:8px"><span class="dot" style="background:${col}"></span><span style="font-size:12px" class="mt">${v.dt}</span></div></div>`;});
+  h+=`</div></div>`;
+  return h;
+}
+
+// ─── CLIENTS ───
+function renderClients(){
+  const fc=S.clients.filter(c=>{const ms=c.n.toLowerCase().includes(S.search.toLowerCase())||c.ct.toLowerCase().includes(S.search.toLowerCase());return ms&&(S.fType==="Tous"||c.t===S.fType)&&(S.fRep==="Tous"||c.rp===S.fRep);});
+  let h=`<div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap">
+    <input class="inp" style="flex:1;min-width:220px;background:#fff" placeholder="Rechercher un client ou contact..." value="${esc(S.search)}" oninput="S.search=this.value;R()">
+    <select class="inp" style="width:auto" onchange="S.fType=this.value;R()">${opts(TYPES,S.fType,true)}</select>
+    <select class="inp" style="width:auto" onchange="S.fRep=this.value;R()">${opts(S.reps,S.fRep,true)}</select>
+  </div>`;
+  h+=`<div class="card" style="padding:0;overflow-x:auto"><table><thead><tr><th>Client</th><th>Type</th><th>Contact</th><th>Dept.</th><th>Commercial</th><th>Stade</th><th>CA 2025</th></tr></thead><tbody>`;
+  fc.forEach(c=>{h+=`<tr class="click" onclick="selectClient('${c.id}')"><td style="font-weight:700">${IC[c.t]||""} ${esc(c.n)}</td><td>${c.t}</td><td style="color:#6b5e4a">${esc(c.ct)}</td><td>${c.dp.split(" - ")[1]}</td><td>${esc(c.rp)}</td><td>${badge(c.st)}</td><td>${c.ca>0?`<span class="wt">${fmt(c.ca)}</span>`:'<span style="color:#ccc">—</span>'}</td></tr>`;});
+  h+=`</tbody></table>`;
+  if(fc.length===0)h+=`<p style="text-align:center;padding:30px;color:#bbb">Aucun client trouvé</p>`;
+  h+=`</div>`;return h;
+}
+
+// ─── PIPELINE ───
+function renderPipeline(){
+  let h='<div class="pipeline">';
+  STAGES.filter(s=>s!=="Perdu").forEach(st=>{const sc=S.clients.filter(c=>c.st===st);const col=SCC[st];
+    h+=`<div style="min-width:170px"><div style="padding:10px 14px;background:${col}18;border-radius:10px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;border:1px solid ${col}30"><b style="font-size:13px;color:${col}">${st}</b><span style="background:${col};color:#fff;padding:2px 9px;border-radius:12px;font-size:11px;font-weight:800">${sc.length}</span></div>`;
+    sc.forEach(c=>{h+=`<div class="pipe-card" style="border-left:4px solid ${col}" onclick="selectClient('${c.id}');switchTab('clients')"><div style="font-size:14px;margin-bottom:4px">${IC[c.t]||""}</div><div style="font-weight:700;font-size:14px;margin-bottom:4px;line-height:1.3">${esc(c.n)}</div><div style="font-size:12px;color:var(--muted)">${esc(c.rp)} — ${c.dp.split(" - ")[1]}</div>${c.ca>0?`<div class="wt" style="font-size:13px;margin-top:6px">${fmt(c.ca)}</div>`:''}</div>`;});
+    h+=`</div>`;});
+  h+='</div>';return h;
+}
+
+// ─── VISITS ───
+function renderVisits(){
+  let h=`<div class="card" style="padding:0;overflow-x:auto"><table><thead><tr><th>Date</th><th>Client</th><th>Commercial</th><th>Type</th><th>Compte-rendu</th><th>Résultat</th></tr></thead><tbody>`;
+  [...S.visits].sort((a,b)=>b.dt.localeCompare(a.dt)).forEach(v=>{const col=v.rs==="Positif"?"#4e8f58":v.rs==="Négatif"?"#a86b6b":"#b8860b";
+    h+=`<tr><td style="font-weight:600">${v.dt}</td><td style="font-weight:700">${esc(cn(v.cid))}</td><td>${esc(v.rp)}</td><td>${badge(v.tp)}</td><td class="ellipsis" style="color:#6b5e4a">${esc(v.nt)}</td><td><span style="font-weight:700;font-size:13px;color:${col}">${esc(v.rs)}</span></td></tr>`;});
+  h+=`</tbody></table></div>`;return h;
+}
+
+// ─── DETAIL ───
+function renderDetail(){
+  const c=S.sel;
+  const cv=S.visits.filter(v=>v.cid===c.id).sort((a,b)=>b.dt.localeCompare(a.dt));
+  const co=S.orders.filter(o=>o.cid===c.id).sort((a,b)=>b.dt.localeCompare(a.dt));
+  const tCA=co.reduce((a,o)=>a+o.am,0);
+  let h=`<button class="back-btn" onclick="S.sel=null;R()">← Retour</button>`;
+  h+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px"><div>
+    <h2 style="margin:0 0 10px;font-size:24px">${IC[c.t]||""} ${esc(c.n)}</h2>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">${badge(c.st)} ${badge(c.t)} ${badge(c.rp)}</div>
+  </div><div style="display:flex;gap:8px">
+    <button class="btn btn-s btn-sm" onclick="openNewVisitFor('${c.id}')">+ Visite</button>
+    <button class="btn btn-p btn-sm" onclick="openEditClient('${c.id}')">Modifier</button>
+  </div></div>`;
+  h+=`<div class="detail-info">`;
+  [["Contact",c.ct],["Téléphone",c.ph],["Email",c.em],["Département",c.dp],["Adresse",c.ad]].forEach(([l,v])=>{h+=`<div><div class="lbl">${l}</div><div style="font-weight:500;margin-top:3px;font-size:14px">${esc(v)||"—"}</div></div>`;});
+  if(c.nt)h+=`<div class="full"><div class="lbl">Notes</div><div style="font-style:italic;color:#6b5e4a;margin-top:3px">${esc(c.nt)}</div></div>`;
+  h+=`</div>`;
+  // Stage changer
+  h+=`<div style="margin-top:20px;padding:16px;background:var(--bg2);border-radius:12px"><div class="lbl">Changer le stade</div><div class="stages-bar">`;
+  STAGES.forEach(st=>{const col=SCC[st];const ac=c.st===st;h+=`<button class="sbtn" style="border-color:${ac?col:'#ddd'};background:${ac?col+'20':'#fff'};color:${ac?col:'#888'}${ac?';border-width:2px':''}" onclick="updateStage('${c.id}','${st}')">${st}</button>`;});
+  h+=`</div></div></div>`;
+  h+=`<div class="grid3">${kpi("CA commandes",fmt(tCA),"var(--wine)","💰")}${kpi("Commandes",co.length,"#b8860b","📦")}${kpi("Visites",cv.length,"#4e8f58","🚗")}</div>`;
+  h+=`<div class="grid2"><div class="card"><h4>Historique visites</h4>`;
+  if(cv.length===0)h+=`<p style="color:#bbb;font-size:14px">Aucune visite</p>`;
+  cv.forEach(v=>{const col=v.rs==="Positif"?"#4e8f58":v.rs==="Négatif"?"#a86b6b":"#b8860b";h+=`<div style="padding:12px 0;border-bottom:1px solid #f0ebe0"><div style="display:flex;justify-content:space-between;font-size:14px"><b>${esc(v.tp)} — ${esc(v.rp)}</b><span class="mt" style="font-size:13px">${v.dt}</span></div><p style="margin:5px 0 3px;font-size:13px;color:#5a4e3c;line-height:1.5">${esc(v.nt)}</p><span style="font-size:12px;font-weight:700;color:${col}">${esc(v.rs)}</span></div>`;});
+  h+=`</div><div class="card"><h4>Commandes</h4>`;
+  if(co.length===0)h+=`<p style="color:#bbb;font-size:14px">Aucune commande</p>`;
+  co.forEach(o=>{h+=`<div style="padding:12px 0;border-bottom:1px solid #f0ebe0"><div style="display:flex;justify-content:space-between;font-size:14px"><b class="wt">${fmt(o.am)}</b><span class="mt" style="font-size:13px">${o.dt}</span></div><p style="margin:4px 0;font-size:13px;color:#5a4e3c">${esc(o.pr)}</p></div>`;});
+  h+=`</div></div>`;return h;
+}
+
+// ─── FORM ───
+function renderForm(){
+  const fd=S.fd;const isV=S.form==='newvisit';const isN=S.form==='newclient';
+  const title=isV?'Nouvelle visite':isN?'Nouveau client':'Modifier le client';
+  let h=`<div class="card" style="max-width:700px;margin:0 auto;box-shadow:0 4px 20px rgba(0,0,0,0.04)"><h3 style="margin:0 0 24px;font-size:22px">${title}</h3><div class="form-grid">`;
+  if(isV){
+    h+=`<div><label class="lbl">Client</label><select class="inp" onchange="S.fd.cid=this.value">${S.clients.map(c=>`<option value="${c.id}"${c.id===fd.cid?' selected':''}>${esc(c.n)}</option>`).join('')}</select></div>`;
+    h+=`<div><label class="lbl">Commercial</label><select class="inp" onchange="S.fd.rp=this.value">${opts(S.reps,fd.rp)}</select></div>`;
+    h+=`<div><label class="lbl">Date</label><input type="date" class="inp" value="${fd.dt||''}" onchange="S.fd.dt=this.value"></div>`;
+    h+=`<div><label class="lbl">Type de visite</label><select class="inp" onchange="S.fd.tp=this.value">${opts(VTYPES,fd.tp)}</select></div>`;
+    h+=`<div><label class="lbl">Résultat</label><select class="inp" onchange="S.fd.rs=this.value">${opts(["Positif","En attente","Négatif"],fd.rs)}</select></div>`;
+    h+=`<div class="full"><label class="lbl">Compte-rendu</label><textarea class="inp" oninput="S.fd.nt=this.value" placeholder="Détaillez votre visite...">${esc(fd.nt||'')}</textarea></div>`;
+  } else {
+    h+=`<div class="full"><label class="lbl">Raison sociale</label><input class="inp" value="${esc(fd.n||'')}" oninput="S.fd.n=this.value" placeholder="Nom de l'enseigne"></div>`;
+    h+=`<div><label class="lbl">Type</label><select class="inp" onchange="S.fd.t=this.value">${opts(TYPES,fd.t)}</select></div>`;
+    h+=`<div><label class="lbl">Commercial</label><select class="inp" onchange="S.fd.rp=this.value">${opts(S.reps,fd.rp)}</select></div>`;
+    h+=`<div><label class="lbl">Contact</label><input class="inp" value="${esc(fd.ct||'')}" oninput="S.fd.ct=this.value" placeholder="Nom du contact"></div>`;
+    h+=`<div><label class="lbl">Téléphone</label><input class="inp" value="${esc(fd.ph||'')}" oninput="S.fd.ph=this.value" placeholder="04 XX XX XX XX"></div>`;
+    h+=`<div><label class="lbl">Email</label><input class="inp" value="${esc(fd.em||'')}" oninput="S.fd.em=this.value"></div>`;
+    h+=`<div><label class="lbl">Département</label><select class="inp" onchange="S.fd.dp=this.value">${opts(DEPTS,fd.dp)}</select></div>`;
+    h+=`<div class="full"><label class="lbl">Adresse</label><input class="inp" value="${esc(fd.ad||'')}" oninput="S.fd.ad=this.value"></div>`;
+    h+=`<div><label class="lbl">Stade pipeline</label><select class="inp" onchange="S.fd.st=this.value">${opts(STAGES,fd.st)}</select></div>`;
+    h+=`<div><label class="lbl">CA 2025 (€)</label><input type="number" class="inp" value="${fd.ca||0}" oninput="S.fd.ca=Number(this.value)"></div>`;
+    h+=`<div class="full"><label class="lbl">Notes</label><textarea class="inp" oninput="S.fd.nt=this.value">${esc(fd.nt||'')}</textarea></div>`;
+  }
+  h+=`</div><div style="display:flex;gap:12px;margin-top:24px;justify-content:flex-end">`;
+  h+=`<button class="btn btn-s" onclick="S.form=null;R()">Annuler</button>`;
+  if(isV)h+=`<button class="btn btn-p" onclick="doAddVisit()">Enregistrer la visite</button>`;
+  else if(isN)h+=`<button class="btn btn-p" onclick="doAddClient()">Enregistrer</button>`;
+  else h+=`<button class="btn btn-p" onclick="doEditClient()">Enregistrer</button>`;
+  h+=`</div></div>`;return h;
+}
+
+// ─── Actions ───
+function doLogin(n){S.user=n;R();}
+function doLogout(){S.user=null;R();}
+function switchTab(t){S.tab=t;S.sel=null;S.form=null;R();}
+function selectClient(id){S.sel=S.clients.find(c=>c.id===id);S.form=null;S.tab='clients';R();}
+function openNewClient(){S.form='newclient';S.sel=null;S.tab='clients';S.fd={n:"",t:"GMS",ct:"",ph:"",em:"",ad:"",dp:"73 - Savoie",rp:S.user,st:"Prospect",nt:"",ca:0};R();}
+function openEditClient(id){S.form='editclient';S.fd={...S.clients.find(x=>x.id===id)};R();}
+function openNewVisit(){S.form='newvisit';S.sel=null;S.tab='visits';S.fd={cid:S.clients[0]?.id||"",rp:S.user,dt:new Date().toISOString().slice(0,10),tp:"Suivi",nt:"",rs:"En attente"};R();}
+function openNewVisitFor(cid){S.form='newvisit';S.fd={cid,rp:S.user,dt:new Date().toISOString().slice(0,10),tp:"Suivi",nt:"",rs:"En attente"};R();}
+
+function doAddClient(){const fd=S.fd;if(!fd.n){toast("Nom du client requis");return;}S.clients.push({...fd,id:"c"+Date.now(),cr:new Date().toISOString().slice(0,10),ca:Number(fd.ca)||0});S.form=null;persist();toast("Client ajouté !");R();}
+function doEditClient(){const fd=S.fd;S.clients=S.clients.map(c=>c.id===fd.id?{...fd,ca:Number(fd.ca)||0}:c);S.sel={...fd,ca:Number(fd.ca)||0};S.form=null;persist();toast("Client mis à jour !");R();}
+function doAddVisit(){const fd=S.fd;if(!fd.cid||!fd.dt||!fd.tp){toast("Remplissez tous les champs");return;}S.visits.push({...fd,id:"v"+Date.now()});S.form=null;persist();toast("Visite enregistrée !");R();}
+function updateStage(cid,st){S.clients=S.clients.map(c=>c.id===cid?{...c,st}:c);if(S.sel&&S.sel.id===cid)S.sel={...S.sel,st};persist();toast("Stade mis à jour !");R();}
+async function doReset(){if(!confirm("Réinitialiser toutes les données ?"))return;const d=await apiReset();if(d){S.reps=d.reps||[];S.clients=d.clients||[];S.visits=d.visits||[];S.orders=d.orders||[];}toast("Données réinitialisées");R();}
+
+// ─── Team actions ───
+function doAddRep(){
+  const name=S.newRepName.trim();
+  if(!name){toast("Entrez un prénom");return;}
+  if(S.reps.includes(name)){toast("Ce commercial existe déjà");return;}
+  S.reps.push(name);
+  S.newRepName="";
+  persist();
+  toast(name+" ajouté à l'équipe !");
+  R();
+}
+function doRemoveRep(i){
+  const name=S.reps[i];
+  if(name===S.user){toast("Vous ne pouvez pas vous supprimer");return;}
+  const rc=S.clients.filter(c=>c.rp===name);
+  if(rc.length>0){toast(name+" a "+rc.length+" client(s). Réaffectez-les d'abord.");return;}
+  if(!confirm("Supprimer "+name+" de l'équipe ?"))return;
+  S.reps.splice(i,1);
+  persist();
+  toast(name+" retiré de l'équipe");
+  R();
+}
+
+// ─── Init ───
+(async function(){
+  const d=await apiLoad();
+  if(d){S.reps=d.reps||["Gérôme","Laurent","Christophe","David","Doriane"];S.clients=d.clients||[];S.visits=d.visits||[];S.orders=d.orders||[];}
+  else{S.reps=["Gérôme","Laurent","Christophe","David","Doriane"];}
+  R();
+})();
+</script>
+</body>
+</html>
