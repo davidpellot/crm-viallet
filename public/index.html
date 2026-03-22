@@ -278,6 +278,7 @@ function renderHeader(){
     <span>Connecté : <b>${esc(S.user)}</b></span>
     ${S.saving?'<span style="color:rgba(255,255,255,0.4);font-size:11px;font-family:system-ui">Sauvegarde...</span>':''}
     <button class="hbtn" onclick="switchTab('alerts')" title="Alertes">🔔${urgentCount>0?`<span class="alert-badge">${urgentCount}</span>`:''}</button>
+    <button class="hbtn" onclick="openNewOrder()">+ Commande</button>
     <button class="hbtn" onclick="openNewVisit()">+ Visite</button>
     <button class="hbtn" onclick="openNewClient()">+ Client</button>
     <button class="hbtn logout" onclick="doLogout()">Déconnexion</button>
@@ -451,6 +452,7 @@ function renderDetail(){
     <h2 style="margin:0 0 10px;font-size:24px">${IC[c.t]||""} ${esc(c.n)}</h2>
     <div style="display:flex;gap:8px;flex-wrap:wrap">${badge(c.st)} ${badge(c.t)} ${badge(c.rp)}</div>
   </div><div style="display:flex;gap:8px">
+    <button class="btn btn-s btn-sm" onclick="openNewOrderFor('${c.id}')">+ Commande</button>
     <button class="btn btn-s btn-sm" onclick="openNewVisitFor('${c.id}')">+ Visite</button>
     <button class="btn btn-p btn-sm" onclick="openEditClient('${c.id}')">Modifier</button>
   </div></div>`;
@@ -468,16 +470,23 @@ function renderDetail(){
   cv.forEach(v=>{const col=v.rs==="Positif"?"var(--green)":v.rs==="Négatif"?"#a86b6b":"#b8860b";h+=`<div style="padding:12px 0;border-bottom:1px solid #f0ebe0"><div style="display:flex;justify-content:space-between;font-size:14px"><b>${esc(v.tp)} — ${esc(v.rp)}</b><span class="mt" style="font-size:13px">${v.dt}</span></div><p style="margin:5px 0 3px;font-size:13px;color:#5a4e3c;line-height:1.5">${esc(v.nt)}</p><span style="font-size:12px;font-weight:700;color:${col}">${esc(v.rs)}</span></div>`;});
   h+=`</div><div class="card"><h4>Commandes</h4>`;
   if(co.length===0)h+=`<p style="color:#bbb;font-size:14px">Aucune commande</p>`;
-  co.forEach(o=>{h+=`<div style="padding:12px 0;border-bottom:1px solid #f0ebe0"><div style="display:flex;justify-content:space-between;font-size:14px"><b class="wt">${fmt(o.am)}</b><span class="mt" style="font-size:13px">${o.dt}</span></div><p style="margin:4px 0;font-size:13px;color:#5a4e3c">${esc(o.pr)}</p></div>`;});
+  co.forEach(o=>{const stCol=o.st==="Livrée"?"var(--green)":o.st==="Annulée"?"var(--red)":"var(--orange)";h+=`<div style="padding:12px 0;border-bottom:1px solid #f0ebe0"><div style="display:flex;justify-content:space-between;font-size:14px"><b class="wt">${fmt(o.am)}</b><span class="mt" style="font-size:13px">${fmtD(o.dt)}</span></div><p style="margin:4px 0;font-size:13px;color:#5a4e3c">${esc(o.pr)}</p>${o.st?`<span style="font-size:11px;font-weight:700;color:${stCol}">${esc(o.st)}</span>`:''}</div>`;});
   h+=`</div></div>`;return h;
 }
 
 // ─── FORM ───
 function renderForm(){
-  const fd=S.fd;const isV=S.form==='newvisit';const isN=S.form==='newclient';
-  const title=isV?'Nouvelle visite':isN?'Nouveau client':'Modifier le client';
+  const fd=S.fd;const isV=S.form==='newvisit';const isN=S.form==='newclient';const isO=S.form==='neworder';
+  const title=isV?'Nouvelle visite':isO?'Nouvelle commande':isN?'Nouveau client':'Modifier le client';
   let h=`<div class="card" style="max-width:700px;margin:0 auto;box-shadow:0 4px 20px rgba(0,0,0,0.04)"><h3 style="margin:0 0 24px;font-size:22px">${title}</h3><div class="form-grid">`;
-  if(isV){
+  if(isO){
+    h+=`<div><label class="lbl">Client</label><select class="inp" onchange="S.fd.cid=this.value">${S.clients.map(c=>`<option value="${c.id}"${c.id===fd.cid?' selected':''}>${esc(c.n)}</option>`).join('')}</select></div>`;
+    h+=`<div><label class="lbl">Date</label><input type="date" class="inp" value="${fd.dt||''}" onchange="S.fd.dt=this.value"></div>`;
+    h+=`<div class="full"><label class="lbl">Produits commandés</label><input class="inp" value="${esc(fd.pr||'')}" oninput="S.fd.pr=this.value" placeholder="Ex: Jacquère x48, Roussette x24, Crémant x12"></div>`;
+    h+=`<div><label class="lbl">Montant HT (€)</label><input type="number" class="inp" value="${fd.am||''}" oninput="S.fd.am=Number(this.value)" placeholder="0"></div>`;
+    h+=`<div><label class="lbl">Statut</label><select class="inp" onchange="S.fd.st=this.value">${opts(["En attente","En cours","Livrée","Annulée"],fd.st)}</select></div>`;
+    h+=`<div class="full"><label class="lbl">Notes (optionnel)</label><input class="inp" value="${esc(fd.nt||'')}" oninput="S.fd.nt=this.value" placeholder="Référence commande, conditions particulières..."></div>`;
+  } else if(isV){
     h+=`<div><label class="lbl">Client</label><select class="inp" onchange="S.fd.cid=this.value">${S.clients.map(c=>`<option value="${c.id}"${c.id===fd.cid?' selected':''}>${esc(c.n)}</option>`).join('')}</select></div>`;
     h+=`<div><label class="lbl">Commercial</label><select class="inp" onchange="S.fd.rp=this.value">${opts(S.reps,fd.rp)}</select></div>`;
     h+=`<div><label class="lbl">Date</label><input type="date" class="inp" value="${fd.dt||''}" onchange="S.fd.dt=this.value"></div>`;
@@ -501,7 +510,8 @@ function renderForm(){
   }
   h+=`</div><div style="display:flex;gap:12px;margin-top:24px;justify-content:flex-end">`;
   h+=`<button class="btn btn-s" onclick="S.form=null;R()">Annuler</button>`;
-  if(isV)h+=`<button class="btn btn-p" onclick="doAddVisit()">Enregistrer la visite</button>`;
+  if(isO)h+=`<button class="btn btn-p" onclick="doAddOrder()">Enregistrer la commande</button>`;
+  else if(isV)h+=`<button class="btn btn-p" onclick="doAddVisit()">Enregistrer la visite</button>`;
   else if(isN)h+=`<button class="btn btn-p" onclick="doAddClient()">Enregistrer</button>`;
   else h+=`<button class="btn btn-p" onclick="doEditClient()">Enregistrer</button>`;
   h+=`</div></div>`;return h;
@@ -542,6 +552,9 @@ function openNewClient(){S.form='newclient';S.sel=null;S.tab='clients';S.fd={n:"
 function openEditClient(id){S.form='editclient';S.fd={...S.clients.find(x=>x.id===id)};R();}
 function openNewVisit(){S.form='newvisit';S.sel=null;S.tab='visits';S.fd={cid:S.clients[0]?.id||"",rp:S.user,dt:new Date().toISOString().slice(0,10),tp:"Suivi",nt:"",rs:"En attente"};R();}
 function openNewVisitFor(cid){S.form='newvisit';S.fd={cid,rp:S.user,dt:new Date().toISOString().slice(0,10),tp:"Suivi",nt:"",rs:"En attente"};R();}
+function openNewOrder(){S.form='neworder';S.sel=null;S.tab='clients';S.fd={cid:S.clients[0]?.id||"",dt:new Date().toISOString().slice(0,10),pr:"",am:0,st:"En attente",nt:""};R();}
+function openNewOrderFor(cid){S.form='neworder';S.fd={cid,dt:new Date().toISOString().slice(0,10),pr:"",am:0,st:"En attente",nt:""};R();}
+function doAddOrder(){const fd=S.fd;if(!fd.cid||!fd.pr||!fd.am){toast("Remplissez le client, les produits et le montant");return;}S.orders.push({id:"o"+Date.now(),cid:fd.cid,dt:fd.dt,pr:fd.pr,am:Number(fd.am),st:fd.st,nt:fd.nt||""});S.form=null;persist();toast("Commande enregistrée !");R();}
 function doAddClient(){const fd=S.fd;if(!fd.n){toast("Nom du client requis");return;}S.clients.push({...fd,id:"c"+Date.now(),cr:new Date().toISOString().slice(0,10),ca:Number(fd.ca)||0});S.form=null;persist();toast("Client ajouté !");R();}
 function doEditClient(){const fd=S.fd;S.clients=S.clients.map(c=>c.id===fd.id?{...fd,ca:Number(fd.ca)||0}:c);S.sel={...fd,ca:Number(fd.ca)||0};S.form=null;persist();toast("Client mis à jour !");R();}
 function doAddVisit(){const fd=S.fd;if(!fd.cid||!fd.dt||!fd.tp){toast("Remplissez tous les champs");return;}S.visits.push({...fd,id:"v"+Date.now()});S.form=null;persist();toast("Visite enregistrée !");R();}
