@@ -7,18 +7,19 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍇</text></svg>">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--wine:#722f37;--dark:#2a1f14;--cream:#f5f1ea;--card:#fff;--border:#e8e2d4;--muted:#8a7e6b;--text:#2a1f14;--bg2:#f8f5f0}
+:root{--wine:#722f37;--dark:#2a1f14;--cream:#f5f1ea;--card:#fff;--border:#e8e2d4;--muted:#8a7e6b;--text:#2a1f14;--bg2:#f8f5f0;--green:#4e8f58;--orange:#c49a2e;--blue:#6b87ad;--red:#c0392b}
 body{font-family:Palatino,Georgia,serif;background:var(--cream);color:var(--text);min-height:100vh}
 input,select,textarea,button{font-family:inherit}
 .header{background:linear-gradient(135deg,#2a1f14 0%,#3d2028 50%,#722f37 100%);padding:16px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
 .header h1{color:#fff;font-size:21px;letter-spacing:-0.3px}
 .header .sub{color:rgba(255,255,255,0.45);font-size:11px;letter-spacing:2.5px;text-transform:uppercase;font-family:system-ui}
-.header-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.header-actions span{color:rgba(255,255,255,0.6);font-size:13px;font-family:system-ui}
-.header-actions b{color:#fff}
-.hbtn{padding:8px 14px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:#fff;cursor:pointer;font-weight:600;font-size:12px;transition:background 0.15s}
+.ha{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ha span{color:rgba(255,255,255,0.6);font-size:13px;font-family:system-ui}
+.ha b{color:#fff}
+.hbtn{padding:8px 14px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:#fff;cursor:pointer;font-weight:600;font-size:12px;transition:background 0.15s;position:relative}
 .hbtn:hover{background:rgba(255,255,255,0.22)}
 .hbtn.logout{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.6)}
+.alert-badge{position:absolute;top:-6px;right:-6px;background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:2px 6px;border-radius:10px;min-width:18px;text-align:center}
 .tabs{padding:10px 28px;background:#fff;border-bottom:1px solid var(--border);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .tab{padding:9px 18px;border:none;background:transparent;color:#5a4e3c;border-radius:10px;cursor:pointer;font-weight:700;font-size:14px;transition:all 0.15s}
 .tab.active{background:var(--wine);color:#fff}
@@ -48,13 +49,10 @@ tr.click:hover{background:var(--bg2)}
 .inp:focus{border-color:var(--wine)}
 .lbl{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);font-weight:700;margin-bottom:5px}
 .btn{display:inline-block;padding:10px 22px;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:14px;transition:all 0.15s;text-align:center}
-.btn-p{background:var(--wine);color:#fff;box-shadow:0 2px 8px rgba(114,47,55,0.2)}
-.btn-p:hover{background:#8a3a44}
-.btn-s{background:#f0ebe0;color:#4a3f30}
-.btn-s:hover{background:#e5ddd0}
+.btn-p{background:var(--wine);color:#fff;box-shadow:0 2px 8px rgba(114,47,55,0.2)}.btn-p:hover{background:#8a3a44}
+.btn-s{background:#f0ebe0;color:#4a3f30}.btn-s:hover{background:#e5ddd0}
 .btn-sm{padding:7px 14px;font-size:12px}
-.btn-danger{background:#e74c3c;color:#fff}
-.btn-danger:hover{background:#c0392b}
+.btn-danger{background:#e74c3c;color:#fff}.btn-danger:hover{background:#c0392b}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .form-grid .full{grid-column:1/-1}
 @media(max-width:600px){.form-grid{grid-template-columns:1fr}}
@@ -80,7 +78,6 @@ tr.click:hover{background:var(--bg2)}
 .mt{color:var(--muted)}
 .reset-btn{padding:6px 12px;background:none;border:1px solid #ddd;border-radius:8px;cursor:pointer;font-size:11px;color:#aaa;margin-left:auto}
 .reset-btn:hover{border-color:#999;color:#666}
-/* Team management */
 .team-card{background:#fff;border-radius:14px;border:1px solid var(--border);padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:all 0.15s}
 .team-card:hover{box-shadow:0 2px 12px rgba(0,0,0,0.05)}
 .team-name{font-size:17px;font-weight:700;display:flex;align-items:center;gap:10px}
@@ -88,6 +85,21 @@ tr.click:hover{background:var(--bg2)}
 .team-stats b{color:var(--text)}
 .add-rep-row{display:flex;gap:10px;margin-bottom:24px}
 .team-grid{display:grid;gap:12px}
+/* Alerts */
+.alert-card{background:#fff;border-radius:14px;border:1px solid var(--border);padding:18px 22px;display:flex;align-items:flex-start;gap:16px;margin-bottom:12px;transition:all 0.15s}
+.alert-card:hover{box-shadow:0 2px 12px rgba(0,0,0,0.05)}
+.alert-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.alert-content{flex:1}
+.alert-title{font-weight:700;font-size:15px;margin-bottom:3px}
+.alert-sub{font-size:13px;color:var(--muted);line-height:1.5}
+.alert-meta{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.alert-tag{font-size:11px;padding:3px 10px;border-radius:8px;font-weight:600}
+.alert-filter-bar{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.af-btn{padding:8px 16px;border-radius:10px;border:1px solid var(--border);background:#fff;cursor:pointer;font-weight:600;font-size:13px;transition:all 0.15s}
+.af-btn.active{background:var(--wine);color:#fff;border-color:var(--wine)}
+.af-btn:hover:not(.active){background:var(--bg2)}
+.reorder-bar{height:6px;border-radius:3px;background:#eee;margin-top:8px;overflow:hidden}
+.reorder-fill{height:100%;border-radius:3px;transition:width 0.3s}
 </style>
 </head>
 <body>
@@ -101,10 +113,115 @@ const VTYPES=["Prospection","Dégustation","Suivi","Commande","Réclamation","Sa
 const IC={GMS:"🏪",CHR:"🍽️",Caviste:"🍷",Grossiste:"📦",Export:"✈️",Autre:"📋"};
 const SCC={Prospect:"#9e9484","1er Contact":"#6b87ad","Dégustation":"#8b6bab","Négociation":"#c49a2e","Référencé":"#4e8f58",Perdu:"#a86b6b"};
 const fmt=n=>new Intl.NumberFormat("fr-FR",{style:"currency",currency:"EUR",minimumFractionDigits:0}).format(n);
+const fmtD=d=>{if(!d)return"—";const p=d.split("-");return p[2]+"/"+p[1]+"/"+p[0];};
+const today=new Date().toISOString().slice(0,10);
+const todayObj=new Date(today);
+
+// ─── Calendrier des fêtes françaises (prénom → MM-DD) ───
+const FETES={
+"Adrien":"01-09","Agnès":"01-21","Albert":"11-15","Alexandre":"04-22","Alexis":"02-17","Alice":"12-16","Aline":"10-20","Alphonse":"08-01",
+"Amandine":"07-09","Amélie":"09-19","André":"11-30","Andrée":"11-30","Ange":"10-05","Angèle":"01-27","Anne":"07-26","Antoine":"01-17",
+"Antoinette":"01-17","Arnaud":"09-10","Arthur":"11-15","Audrey":"06-23","Aurélien":"06-16","Aurélie":"10-15",
+"Baptiste":"06-24","Barbara":"12-04","Basile":"01-02","Béatrice":"02-13","Benjamin":"03-31","Benoît":"07-11","Bernadette":"02-18",
+"Bernard":"08-20","Bertrand":"09-06","Blanche":"10-03","Boris":"05-02","Brigitte":"07-23","Bruno":"10-06",
+"Camille":"07-14","Carine":"11-07","Caroline":"07-17","Catherine":"11-25","Cécile":"11-22","Céline":"10-21","Charles":"11-04",
+"Charlotte":"07-17","Christian":"11-12","Christine":"07-24","Christophe":"07-25","Claire":"08-11","Claude":"06-06","Clémence":"03-21",
+"Colette":"03-06","Corinne":"10-18","Cyrille":"03-18",
+"Damien":"09-26","Daniel":"12-11","David":"12-29","Delphine":"12-09","Denis":"10-09","Diane":"06-09","Didier":"05-23","Dominique":"08-08",
+"Doriane":"02-06","Edith":"09-16","Édouard":"01-05","Éliane":"02-04","Élisabeth":"11-17","Élodie":"10-22","Émile":"05-22","Émilie":"09-19",
+"Emma":"04-19","Emmanuel":"12-25","Éric":"11-12","Étienne":"12-26","Eugène":"11-13","Évelyne":"08-27",
+"Fabien":"01-20","Fabienne":"01-20","Fabrice":"08-22","Fanny":"09-26","Florence":"12-01","Florent":"07-04","Florian":"05-04",
+"Francis":"10-04","François":"01-24","Françoise":"03-09","Frédéric":"07-18","Frédérique":"07-18",
+"Gabriel":"09-29","Gaël":"12-17","Geneviève":"01-03","Georges":"04-23","Gérard":"10-03","Gérôme":"09-30","Gilbert":"06-07",
+"Gilles":"09-01","Grégoire":"01-02","Guillaume":"01-10","Guy":"06-12","Gustave":"10-07",
+"Hélène":"08-18","Henri":"07-13","Hervé":"06-17","Hubert":"11-03","Hugo":"04-01",
+"Irène":"04-05","Isabelle":"02-22","Jacques":"07-25","Jean":"06-24","Jeanne":"05-30","Jérôme":"09-30",
+"Jocelyne":"11-15","Joël":"07-13","Jonathan":"11-01","Joseph":"03-19","Joséphine":"03-19","Josette":"03-19","Julie":"04-08",
+"Julien":"01-09","Justine":"10-12",
+"Karine":"11-07","Laetitia":"08-18","Laurent":"08-10","Léa":"03-22","Léon":"11-10","Liliane":"07-27","Louis":"08-25","Louise":"03-15",
+"Luc":"10-18","Lucie":"12-13","Lucien":"01-08","Lucienne":"01-08","Ludovic":"08-25",
+"Madeleine":"07-22","Manon":"08-15","Marc":"04-25","Marcel":"01-16","Marguerite":"11-16","Marie":"08-15","Marine":"07-20",
+"Marion":"08-15","Martine":"01-30","Mathieu":"09-21","Mathilde":"03-14","Maurice":"09-22","Maxime":"11-27","Michel":"09-29",
+"Michèle":"09-29","Monique":"08-27","Muriel":"08-15","Mylène":"11-05",
+"Nadine":"09-18","Nathalie":"07-26","Nicolas":"12-06","Nicole":"03-06","Noël":"12-25","Noémie":"08-14",
+"Odette":"04-20","Olivier":"07-12","Pascal":"05-17","Patricia":"03-17","Patrick":"03-17","Paul":"06-29","Pauline":"03-14",
+"Philippe":"05-03","Pierre":"06-29","Rachel":"01-15","Raphaël":"09-29","Raymond":"01-07","Régine":"09-07","Rémy":"10-01",
+"Renaud":"09-17","René":"10-19","Richard":"04-03","Robert":"04-30","Roger":"12-30","Roland":"05-13","Romain":"02-28","Rose":"08-23",
+"Sabine":"10-27","Samuel":"08-20","Sandra":"04-02","Sandrine":"04-02","Sarah":"10-09","Sébastien":"01-20","Serge":"10-07",
+"Simone":"10-28","Sophie":"05-25","Stéphane":"12-26","Stéphanie":"12-26","Suzanne":"08-11","Sylvain":"11-04","Sylvie":"11-05",
+"Thérèse":"10-01","Thierry":"07-01","Thomas":"01-28","Valérie":"04-28","Véronique":"02-04","Victor":"07-21","Vincent":"01-22",
+"Virginie":"01-07","Viviane":"12-02","Xavier":"12-03","Yannick":"05-17","Yves":"05-19","Yvette":"01-13","Yvonne":"05-19"
+};
+
+// ─── Alert engine ───
+function getAlerts(){
+  const alerts=[];
+  const now=todayObj;
+  const in7=new Date(now);in7.setDate(in7.getDate()+7);
+  const in14=new Date(now);in14.setDate(in14.getDate()+14);
+  const in30=new Date(now);in30.setDate(in30.getDate()+30);
+
+  S.clients.forEach(c=>{
+    // 1. RÉASSORT — cadence based on orders
+    const co=S.orders.filter(o=>o.cid===c.id).sort((a,b)=>a.dt.localeCompare(b.dt));
+    if(co.length>=2){
+      const dates=co.map(o=>new Date(o.dt));
+      let totalGap=0;
+      for(let i=1;i<dates.length;i++) totalGap+=Math.round((dates[i]-dates[i-1])/(1000*60*60*24));
+      const avgCadence=Math.round(totalGap/(dates.length-1));
+      const lastOrder=dates[dates.length-1];
+      const nextReorder=new Date(lastOrder);nextReorder.setDate(nextReorder.getDate()+avgCadence);
+      const daysUntil=Math.round((nextReorder-now)/(1000*60*60*24));
+      const pct=Math.max(0,Math.min(100,100-Math.round((daysUntil/avgCadence)*100)));
+
+      if(daysUntil<=0){
+        alerts.push({type:"reorder",urgency:"critical",icon:"📦",color:"#c0392b",title:"Réassort en retard — "+c.n,sub:`Cadence moyenne : ${avgCadence} jours. Dernière commande le ${fmtD(co[co.length-1].dt)}. Retard de ${Math.abs(daysUntil)} jour(s).`,rep:c.rp,cid:c.id,pct:100,days:daysUntil});
+      } else if(daysUntil<=14){
+        alerts.push({type:"reorder",urgency:"warning",icon:"📦",color:"#c49a2e",title:"Réassort à prévoir — "+c.n,sub:`Cadence : ${avgCadence} jours. Prochaine commande estimée le ${fmtD(nextReorder.toISOString().slice(0,10))} (dans ${daysUntil}j).`,rep:c.rp,cid:c.id,pct,days:daysUntil});
+      } else if(daysUntil<=30){
+        alerts.push({type:"reorder",urgency:"info",icon:"📦",color:"var(--blue)",title:"Réassort dans ${daysUntil} jours — "+c.n,sub:`Cadence : ${avgCadence}j. Dernière commande : ${fmtD(co[co.length-1].dt)}.`,rep:c.rp,cid:c.id,pct,days:daysUntil});
+      }
+    } else if(co.length===1){
+      const lastD=new Date(co[0].dt);
+      const daysSince=Math.round((now-lastD)/(1000*60*60*24));
+      if(daysSince>45){
+        alerts.push({type:"reorder",urgency:"warning",icon:"📦",color:"#c49a2e",title:"Relance commande — "+c.n,sub:`Une seule commande il y a ${daysSince} jours (${fmtD(co[0].dt)}). Prévoir une relance ?`,rep:c.rp,cid:c.id,pct:80,days:-daysSince});
+      }
+    }
+
+    // 2. ANNIVERSAIRE
+    if(c.bd){
+      const thisYear=now.getFullYear();
+      let bdDate=new Date(thisYear+"-"+c.bd.slice(5));
+      if(bdDate<now){bdDate=new Date((thisYear+1)+"-"+c.bd.slice(5));}
+      const daysUntilBd=Math.round((bdDate-now)/(1000*60*60*24));
+      const age=bdDate.getFullYear()-parseInt(c.bd.slice(0,4));
+      if(daysUntilBd===0) alerts.push({type:"birthday",urgency:"critical",icon:"🎂",color:"#e74c3c",title:"Anniversaire aujourd'hui — "+c.ct,sub:`${c.ct} (${c.n}) fête ses ${age} ans aujourd'hui ! Pensez à envoyer un message.`,rep:c.rp,cid:c.id,days:0});
+      else if(daysUntilBd<=7) alerts.push({type:"birthday",urgency:"warning",icon:"🎂",color:"#c49a2e",title:`Anniversaire dans ${daysUntilBd}j — `+c.ct,sub:`${c.ct} (${c.n}) fêtera ses ${age} ans le ${fmtD(bdDate.toISOString().slice(0,10))}.`,rep:c.rp,cid:c.id,days:daysUntilBd});
+      else if(daysUntilBd<=30) alerts.push({type:"birthday",urgency:"info",icon:"🎂",color:"var(--blue)",title:`Anniversaire le ${fmtD(bdDate.toISOString().slice(0,10))} — `+c.ct,sub:`${c.ct} (${c.n}) — dans ${daysUntilBd} jours.`,rep:c.rp,cid:c.id,days:daysUntilBd});
+    }
+
+    // 3. FÊTE
+    if(c.fn && FETES[c.fn]){
+      const feteMMDD=FETES[c.fn];
+      const thisYear=now.getFullYear();
+      let fDate=new Date(thisYear+"-"+feteMMDD);
+      if(fDate<now){fDate=new Date((thisYear+1)+"-"+feteMMDD);}
+      const daysUntilF=Math.round((fDate-now)/(1000*60*60*24));
+      if(daysUntilF===0) alerts.push({type:"fete",urgency:"critical",icon:"🎉",color:"#8b6bab",title:"Bonne fête aujourd'hui — "+c.ct,sub:`C'est la Saint(e) ${c.fn} aujourd'hui ! Un petit mot à ${c.ct} (${c.n}) ?`,rep:c.rp,cid:c.id,days:0});
+      else if(daysUntilF<=7) alerts.push({type:"fete",urgency:"warning",icon:"🎉",color:"#8b6bab",title:`Fête dans ${daysUntilF}j — `+c.ct,sub:`Saint(e) ${c.fn} le ${fmtD(fDate.toISOString().slice(0,10))}. Contact : ${c.ct} (${c.n}).`,rep:c.rp,cid:c.id,days:daysUntilF});
+      else if(daysUntilF<=14) alerts.push({type:"fete",urgency:"info",icon:"🎉",color:"#8b6bab",title:`Fête le ${fmtD(fDate.toISOString().slice(0,10))} — `+c.ct,sub:`Saint(e) ${c.fn} — ${c.ct} (${c.n}), dans ${daysUntilF} jours.`,rep:c.rp,cid:c.id,days:daysUntilF});
+    }
+  });
+
+  // Sort: critical first, then by days
+  alerts.sort((a,b)=>{const u={critical:0,warning:1,info:2};return(u[a.urgency]||3)-(u[b.urgency]||3)||a.days-b.days;});
+  return alerts;
+}
 
 // ─── State ───
 let S={user:null,tab:"dash",sel:null,form:null,fd:{},search:"",fType:"Tous",fRep:"Tous",
-  reps:[],clients:[],visits:[],orders:[],toast:"",saving:false,newRepName:""};
+  reps:[],clients:[],visits:[],orders:[],toast:"",saving:false,newRepName:"",alertFilter:"all"};
 
 // ─── API ───
 async function apiLoad(){try{const r=await fetch('/api/data');return await r.json();}catch(e){return null;}}
@@ -115,7 +232,7 @@ function persist(){apiSave({reps:S.reps,clients:S.clients,visits:S.visits,orders
 function cn(id){return S.clients.find(c=>c.id===id)?.n||"?";}
 function esc(s){if(!s)return'';const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
 function opts(arr,sel,all){let h=all?'<option>Tous</option>':'<option value="">-- Choisir --</option>';arr.forEach(a=>{h+=`<option${a===sel?' selected':''}>${a}</option>`;});return h;}
-function badge(t,st){const c=SCC[t]||SCC[st];return c?`<span class="badge" style="background:${c}20;color:${c}">${esc(t)}</span>`:`<span class="badge">${esc(t)}</span>`;}
+function badge(t){const c=SCC[t];return c?`<span class="badge" style="background:${c}20;color:${c}">${esc(t)}</span>`:`<span class="badge">${esc(t)}</span>`;}
 function kpi(l,v,c,i){return`<div class="kpi"><div class="bar" style="background:${c}"></div><div class="label">${l}</div><div class="val">${v}</div><span class="icon">${i}</span></div>`;}
 
 // ─── Render ───
@@ -131,6 +248,7 @@ function R(){
   else if(S.tab==='clients')h+=renderClients();
   else if(S.tab==='pipe')h+=renderPipeline();
   else if(S.tab==='visits')h+=renderVisits();
+  else if(S.tab==='alerts')h+=renderAlerts();
   else if(S.tab==='team')h+=renderTeam();
   h+='</div>';
   a.innerHTML=h;
@@ -145,18 +263,21 @@ function renderLogin(){
     <p style="font-size:13px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:32px;font-family:system-ui">CRM Commercial</p>
     <p style="font-size:15px;color:#5a4e3c;margin-bottom:20px">Bonjour ! Qui êtes-vous ?</p>
     ${b}
-    <p style="margin-top:16px;font-size:12px;color:var(--muted)">Équipe non listée ? Demandez à l'administrateur de vous ajouter.</p>
   </div></div>`;
 }
 
 // ─── HEADER ───
 function renderHeader(){
+  const alerts=getAlerts();
+  const myAlerts=alerts.filter(a=>a.rep===S.user);
+  const urgentCount=myAlerts.filter(a=>a.urgency==='critical'||a.urgency==='warning').length;
   return`<div class="header"><div style="display:flex;align-items:center;gap:16px">
     <span style="font-size:32px">🍇</span>
     <div><h1>Maison Philippe Viallet</h1><p class="sub">CRM Commercial</p></div>
-  </div><div class="header-actions">
+  </div><div class="ha">
     <span>Connecté : <b>${esc(S.user)}</b></span>
     ${S.saving?'<span style="color:rgba(255,255,255,0.4);font-size:11px;font-family:system-ui">Sauvegarde...</span>':''}
+    <button class="hbtn" onclick="switchTab('alerts')" title="Alertes">🔔${urgentCount>0?`<span class="alert-badge">${urgentCount}</span>`:''}</button>
     <button class="hbtn" onclick="openNewVisit()">+ Visite</button>
     <button class="hbtn" onclick="openNewClient()">+ Client</button>
     <button class="hbtn logout" onclick="doLogout()">Déconnexion</button>
@@ -165,59 +286,61 @@ function renderHeader(){
 
 // ─── TABS ───
 function renderTabs(){
+  const allAlerts=getAlerts();
+  const urgC=allAlerts.filter(a=>a.urgency==='critical'||a.urgency==='warning').length;
   const t=(k,l,c)=>{const ac=S.tab===k?'active':'';const cn2=c!==undefined?`<span class="cnt">${c}</span>`:'';return`<button class="tab ${ac}" onclick="switchTab('${k}')">${l}${cn2}</button>`;};
   return`<div class="tabs">
-    ${t('dash','Tableau de bord')}${t('clients','Clients',S.clients.length)}${t('pipe','Pipeline')}${t('visits','Visites',S.visits.length)}${t('team','Équipe ⚙️',S.reps.length)}
+    ${t('dash','Tableau de bord')}${t('clients','Clients',S.clients.length)}${t('pipe','Pipeline')}${t('visits','Visites',S.visits.length)}${t('alerts','🔔 Alertes',urgC>0?urgC:undefined)}${t('team','Équipe',S.reps.length)}
     <button class="reset-btn" onclick="doReset()">Réinitialiser</button>
   </div>`;
 }
 
-// ─── TEAM MANAGEMENT ───
-function renderTeam(){
-  let h=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px">
-    <div><h2 style="font-size:22px">Gestion de l'équipe</h2><p style="color:var(--muted);font-size:14px;margin-top:4px">Ajoutez ou retirez des commerciaux. Les modifications sont partagées avec toute l'équipe.</p></div>
+// ─── ALERTS ───
+function renderAlerts(){
+  const allAlerts=getAlerts();
+  const af=S.alertFilter;
+  const filtered=af==='all'?allAlerts:af==='mine'?allAlerts.filter(a=>a.rep===S.user):allAlerts.filter(a=>a.type===af);
+
+  const countByType={reorder:allAlerts.filter(a=>a.type==='reorder').length,birthday:allAlerts.filter(a=>a.type==='birthday').length,fete:allAlerts.filter(a=>a.type==='fete').length};
+  const mine=allAlerts.filter(a=>a.rep===S.user).length;
+
+  let h=`<div style="margin-bottom:24px"><h2 style="font-size:22px;margin-bottom:6px">Centre d'alertes</h2><p class="mt" style="font-size:14px">Réassorts, anniversaires et fêtes de vos contacts — anticipez chaque occasion.</p></div>`;
+
+  // Filter bar
+  h+=`<div class="alert-filter-bar">
+    <button class="af-btn ${af==='all'?'active':''}" onclick="S.alertFilter='all';R()">Toutes (${allAlerts.length})</button>
+    <button class="af-btn ${af==='mine'?'active':''}" onclick="S.alertFilter='mine';R()">Mes alertes (${mine})</button>
+    <button class="af-btn ${af==='reorder'?'active':''}" onclick="S.alertFilter='reorder';R()">📦 Réassort (${countByType.reorder})</button>
+    <button class="af-btn ${af==='birthday'?'active':''}" onclick="S.alertFilter='birthday';R()">🎂 Anniversaires (${countByType.birthday})</button>
+    <button class="af-btn ${af==='fete'?'active':''}" onclick="S.alertFilter='fete';R()">🎉 Fêtes (${countByType.fete})</button>
   </div>`;
 
-  // Add new rep
-  h+=`<div class="add-rep-row">
-    <input class="inp" style="flex:1;max-width:300px;background:#fff" placeholder="Prénom du nouveau commercial..." id="newRepInput" value="${esc(S.newRepName)}" oninput="S.newRepName=this.value" onkeydown="if(event.key==='Enter')doAddRep()">
-    <button class="btn btn-p" onclick="doAddRep()">+ Ajouter</button>
-  </div>`;
+  if(filtered.length===0){
+    h+=`<div class="card" style="text-align:center;padding:48px"><div style="font-size:48px;margin-bottom:16px">✨</div><p style="font-size:16px;color:var(--muted)">Aucune alerte pour le moment. Tout est sous contrôle !</p></div>`;
+    return h;
+  }
 
-  // List reps
-  h+=`<div class="team-grid">`;
-  S.reps.forEach((rep,i)=>{
-    const rc=S.clients.filter(c=>c.rp===rep);
-    const rv=S.visits.filter(v=>v.rp===rep);
-    const ca=rc.reduce((a,c)=>a+c.ca,0);
-    const isCurrentUser=rep===S.user;
-    h+=`<div class="team-card">
-      <div style="display:flex;align-items:center;gap:16px;flex:1;flex-wrap:wrap">
-        <div class="team-name">
-          <div style="width:42px;height:42px;border-radius:50%;background:${['#722f37','#4e8f58','#6b87ad','#c49a2e','#8b6bab','#9e9484'][i%6]}15;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:${['#722f37','#4e8f58','#6b87ad','#c49a2e','#8b6bab','#9e9484'][i%6]}">${esc(rep.charAt(0))}</div>
-          ${esc(rep)}
-          ${isCurrentUser?'<span class="badge" style="background:#722f3715;color:#722f37">Vous</span>':''}
-        </div>
-        <div class="team-stats">
-          <span><b>${rc.length}</b> clients</span>
-          <span><b>${rv.length}</b> visites</span>
-          <span><b>${fmt(ca)}</b></span>
+  filtered.forEach(a=>{
+    const urgBg={critical:"#fde8e8",warning:"#fef8e8",info:"#e8f0fe"}[a.urgency]||"#f0f0f0";
+    const urgLabel={critical:"Urgent",warning:"À prévoir",info:"À venir"}[a.urgency];
+    const urgColor={critical:"#c0392b",warning:"#b8860b",info:"var(--blue)"}[a.urgency];
+    h+=`<div class="alert-card" style="border-left:4px solid ${a.color}">
+      <div class="alert-icon" style="background:${a.color}15">${a.icon}</div>
+      <div class="alert-content">
+        <div class="alert-title">${esc(a.title.replace(/\$\{(\w+)\}/g,''))}</div>
+        <div class="alert-sub">${esc(a.sub)}</div>`;
+    if(a.type==='reorder'&&a.pct!==undefined){
+      const barCol=a.pct>=80?"var(--red)":a.pct>=50?"var(--orange)":"var(--green)";
+      h+=`<div class="reorder-bar"><div class="reorder-fill" style="width:${a.pct}%;background:${barCol}"></div></div>`;
+    }
+    h+=`<div class="alert-meta">
+          <span class="alert-tag" style="background:${urgBg};color:${urgColor}">${urgLabel}</span>
+          <span class="alert-tag" style="background:var(--bg2);color:var(--muted)">${esc(a.rep)}</span>
+          ${a.cid?`<button class="btn btn-sm btn-s" style="padding:3px 10px;font-size:11px" onclick="selectClient('${a.cid}')">Voir fiche →</button>`:''}
         </div>
       </div>
-      <button class="btn btn-sm ${rc.length>0?'btn-s':'btn-danger'}" onclick="doRemoveRep(${i})" ${isCurrentUser?'disabled style="opacity:0.3;cursor:not-allowed"':''}
-        title="${rc.length>0?'Ce commercial a des clients attribués. Réaffectez-les d\'abord.':isCurrentUser?'Vous ne pouvez pas vous supprimer vous-même':'Supprimer ce commercial'}">${rc.length>0?'Réaffecter d\'abord':'Supprimer'}</button>
     </div>`;
   });
-  h+=`</div>`;
-
-  // Info box
-  h+=`<div class="card" style="margin-top:24px;background:var(--bg2);border:1px dashed #cdc5b4">
-    <h4 style="font-size:15px;margin-bottom:8px">💡 Comment ça marche</h4>
-    <p style="font-size:14px;color:#5a4e3c;line-height:1.7">
-      Les commerciaux ajoutés ici apparaissent automatiquement sur l'écran de connexion et dans tous les formulaires (fiches clients, visites, etc.).
-      <br><br>Pour supprimer un commercial qui a des clients attribués, réaffectez d'abord ses clients à un autre commercial via leurs fiches individuelles. Vous ne pouvez pas supprimer votre propre compte.
-    </p>
-  </div>`;
   return h;
 }
 
@@ -226,14 +349,30 @@ function renderDash(){
   const totalCA=S.clients.reduce((a,c)=>a+c.ca,0);
   const refs=S.clients.filter(c=>c.st==="Référencé").length;
   const pipe=S.clients.filter(c=>!["Référencé","Perdu"].includes(c.st)).length;
-  let h=`<div class="grid4">${kpi("CA 2025",fmt(totalCA),"var(--wine)","💰")}${kpi("Clients réf.",refs,"#4e8f58","✅")}${kpi("En pipeline",pipe,"#c49a2e","🎯")}${kpi("Visites",S.visits.length,"#6b87ad","🚗")}</div><div class="grid2">`;
+  const alerts=getAlerts();
+  const urgentAlerts=alerts.filter(a=>a.urgency==='critical'||a.urgency==='warning');
+
+  let h=`<div class="grid4">${kpi("CA 2025",fmt(totalCA),"var(--wine)","💰")}${kpi("Clients réf.",refs,"var(--green)","✅")}${kpi("En pipeline",pipe,"var(--orange)","🎯")}${kpi("Alertes actives",urgentAlerts.length,"var(--red)","🔔")}</div>`;
+
+  // Urgent alerts preview
+  if(urgentAlerts.length>0){
+    h+=`<div class="card" style="border-left:4px solid var(--red);margin-bottom:20px"><h4 style="color:var(--red)">⚠️ Alertes à traiter</h4>`;
+    urgentAlerts.slice(0,4).forEach(a=>{
+      h+=`<div class="activity-item"><div style="font-size:14px">${a.icon} <b>${esc(a.title.replace(/\$\{(\w+)\}/g,''))}</b> <span class="mt" style="font-size:12px">— ${esc(a.rep)}</span></div>
+      <button class="btn btn-sm btn-s" style="padding:3px 10px;font-size:11px" onclick="switchTab('alerts')">Voir →</button></div>`;
+    });
+    if(urgentAlerts.length>4)h+=`<p style="margin-top:8px;font-size:13px;color:var(--muted)">+ ${urgentAlerts.length-4} autre(s)... <a href="#" onclick="switchTab('alerts');return false" style="color:var(--wine)">Voir tout</a></p>`;
+    h+=`</div>`;
+  }
+
+  h+=`<div class="grid2">`;
   // Perf table
   h+=`<div class="card"><h4>Performance commerciaux</h4><table><thead><tr><th>Commercial</th><th>Clients</th><th>Réf.</th><th>Visites</th><th>CA 2025</th></tr></thead><tbody>`;
   S.reps.forEach(rp=>{const rc=S.clients.filter(c=>c.rp===rp);if(rc.length===0&&S.visits.filter(v=>v.rp===rp).length===0)return;h+=`<tr><td style="font-weight:700">${esc(rp)}</td><td>${rc.length}</td><td>${rc.filter(c=>c.st==="Référencé").length}</td><td>${S.visits.filter(v=>v.rp===rp).length}</td><td class="wt">${fmt(rc.reduce((a,c)=>a+c.ca,0))}</td></tr>`;});
   h+=`</tbody></table></div>`;
   // Recent
   h+=`<div class="card"><h4>Dernière activité</h4>`;
-  [...S.visits].sort((a,b)=>b.dt.localeCompare(a.dt)).slice(0,6).forEach(v=>{const col=v.rs==="Positif"?"#4e8f58":v.rs==="Négatif"?"#a86b6b":"#c49a2e";h+=`<div class="activity-item"><div style="font-size:14px"><b>${esc(cn(v.cid))}</b> <span class="mt" style="font-size:13px">— ${esc(v.tp)} par ${esc(v.rp)}</span></div><div style="display:flex;align-items:center;gap:8px"><span class="dot" style="background:${col}"></span><span style="font-size:12px" class="mt">${v.dt}</span></div></div>`;});
+  [...S.visits].sort((a,b)=>b.dt.localeCompare(a.dt)).slice(0,6).forEach(v=>{const col=v.rs==="Positif"?"var(--green)":v.rs==="Négatif"?"#a86b6b":"var(--orange)";h+=`<div class="activity-item"><div style="font-size:14px"><b>${esc(cn(v.cid))}</b> <span class="mt" style="font-size:13px">— ${esc(v.tp)} par ${esc(v.rp)}</span></div><div style="display:flex;align-items:center;gap:8px"><span class="dot" style="background:${col}"></span><span style="font-size:12px" class="mt">${v.dt}</span></div></div>`;});
   h+=`</div></div>`;
   return h;
 }
@@ -266,7 +405,7 @@ function renderPipeline(){
 // ─── VISITS ───
 function renderVisits(){
   let h=`<div class="card" style="padding:0;overflow-x:auto"><table><thead><tr><th>Date</th><th>Client</th><th>Commercial</th><th>Type</th><th>Compte-rendu</th><th>Résultat</th></tr></thead><tbody>`;
-  [...S.visits].sort((a,b)=>b.dt.localeCompare(a.dt)).forEach(v=>{const col=v.rs==="Positif"?"#4e8f58":v.rs==="Négatif"?"#a86b6b":"#b8860b";
+  [...S.visits].sort((a,b)=>b.dt.localeCompare(a.dt)).forEach(v=>{const col=v.rs==="Positif"?"var(--green)":v.rs==="Négatif"?"#a86b6b":"#b8860b";
     h+=`<tr><td style="font-weight:600">${v.dt}</td><td style="font-weight:700">${esc(cn(v.cid))}</td><td>${esc(v.rp)}</td><td>${badge(v.tp)}</td><td class="ellipsis" style="color:#6b5e4a">${esc(v.nt)}</td><td><span style="font-weight:700;font-size:13px;color:${col}">${esc(v.rs)}</span></td></tr>`;});
   h+=`</tbody></table></div>`;return h;
 }
@@ -277,6 +416,37 @@ function renderDetail(){
   const cv=S.visits.filter(v=>v.cid===c.id).sort((a,b)=>b.dt.localeCompare(a.dt));
   const co=S.orders.filter(o=>o.cid===c.id).sort((a,b)=>b.dt.localeCompare(a.dt));
   const tCA=co.reduce((a,o)=>a+o.am,0);
+
+  // Cadence info
+  let cadenceHtml='';
+  if(co.length>=2){
+    const dates=co.map(o=>new Date(o.dt)).sort((a,b)=>a-b);
+    let totalGap=0;for(let i=1;i<dates.length;i++)totalGap+=Math.round((dates[i]-dates[i-1])/(1000*60*60*24));
+    const avg=Math.round(totalGap/(dates.length-1));
+    const last=dates[dates.length-1];
+    const next=new Date(last);next.setDate(next.getDate()+avg);
+    const daysUntil=Math.round((next-todayObj)/(1000*60*60*24));
+    const pct=Math.max(0,Math.min(100,100-Math.round((daysUntil/avg)*100)));
+    const barCol=pct>=80?"var(--red)":pct>=50?"var(--orange)":"var(--green)";
+    const status=daysUntil<=0?`<span style="color:var(--red);font-weight:700">⚠️ En retard de ${Math.abs(daysUntil)}j</span>`:daysUntil<=14?`<span style="color:var(--orange);font-weight:700">📦 Dans ${daysUntil} jours</span>`:`<span style="color:var(--green)">✅ Dans ${daysUntil} jours</span>`;
+    cadenceHtml=`<div style="margin-top:20px;padding:16px;background:var(--bg2);border-radius:12px">
+      <div class="lbl">📦 Cadence de réassort</div>
+      <div style="display:flex;gap:24px;margin-top:10px;flex-wrap:wrap;font-size:14px">
+        <div><span class="mt">Cadence moyenne :</span> <b>${avg} jours</b></div>
+        <div><span class="mt">Dernière commande :</span> <b>${fmtD(co[0].dt)}</b></div>
+        <div><span class="mt">Prochain réassort :</span> ${status}</div>
+      </div>
+      <div class="reorder-bar" style="margin-top:10px"><div class="reorder-fill" style="width:${pct}%;background:${barCol}"></div></div>
+    </div>`;
+  }
+
+  // Birthday & fête info
+  let personalHtml='';
+  const infos=[];
+  if(c.bd) infos.push(`🎂 Anniversaire : <b>${fmtD(c.bd)}</b>`);
+  if(c.fn && FETES[c.fn]){const fd=FETES[c.fn];infos.push(`🎉 Fête (${esc(c.fn)}) : <b>${fd.split("-")[1]}/${fd.split("-")[0]}</b>`);}
+  if(infos.length>0) personalHtml=`<div style="display:flex;gap:24px;flex-wrap:wrap;font-size:14px;margin-top:12px;padding:12px 16px;background:#fef8f0;border-radius:10px;border:1px solid #f0e4d0">${infos.map(i=>`<div>${i}</div>`).join('')}</div>`;
+
   let h=`<button class="back-btn" onclick="S.sel=null;R()">← Retour</button>`;
   h+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px"><div>
     <h2 style="margin:0 0 10px;font-size:24px">${IC[c.t]||""} ${esc(c.n)}</h2>
@@ -288,15 +458,15 @@ function renderDetail(){
   h+=`<div class="detail-info">`;
   [["Contact",c.ct],["Téléphone",c.ph],["Email",c.em],["Département",c.dp],["Adresse",c.ad]].forEach(([l,v])=>{h+=`<div><div class="lbl">${l}</div><div style="font-weight:500;margin-top:3px;font-size:14px">${esc(v)||"—"}</div></div>`;});
   if(c.nt)h+=`<div class="full"><div class="lbl">Notes</div><div style="font-style:italic;color:#6b5e4a;margin-top:3px">${esc(c.nt)}</div></div>`;
-  h+=`</div>`;
+  h+=`</div>${personalHtml}${cadenceHtml}`;
   // Stage changer
   h+=`<div style="margin-top:20px;padding:16px;background:var(--bg2);border-radius:12px"><div class="lbl">Changer le stade</div><div class="stages-bar">`;
   STAGES.forEach(st=>{const col=SCC[st];const ac=c.st===st;h+=`<button class="sbtn" style="border-color:${ac?col:'#ddd'};background:${ac?col+'20':'#fff'};color:${ac?col:'#888'}${ac?';border-width:2px':''}" onclick="updateStage('${c.id}','${st}')">${st}</button>`;});
   h+=`</div></div></div>`;
-  h+=`<div class="grid3">${kpi("CA commandes",fmt(tCA),"var(--wine)","💰")}${kpi("Commandes",co.length,"#b8860b","📦")}${kpi("Visites",cv.length,"#4e8f58","🚗")}</div>`;
+  h+=`<div class="grid3">${kpi("CA commandes",fmt(tCA),"var(--wine)","💰")}${kpi("Commandes",co.length,"#b8860b","📦")}${kpi("Visites",cv.length,"var(--green)","🚗")}</div>`;
   h+=`<div class="grid2"><div class="card"><h4>Historique visites</h4>`;
   if(cv.length===0)h+=`<p style="color:#bbb;font-size:14px">Aucune visite</p>`;
-  cv.forEach(v=>{const col=v.rs==="Positif"?"#4e8f58":v.rs==="Négatif"?"#a86b6b":"#b8860b";h+=`<div style="padding:12px 0;border-bottom:1px solid #f0ebe0"><div style="display:flex;justify-content:space-between;font-size:14px"><b>${esc(v.tp)} — ${esc(v.rp)}</b><span class="mt" style="font-size:13px">${v.dt}</span></div><p style="margin:5px 0 3px;font-size:13px;color:#5a4e3c;line-height:1.5">${esc(v.nt)}</p><span style="font-size:12px;font-weight:700;color:${col}">${esc(v.rs)}</span></div>`;});
+  cv.forEach(v=>{const col=v.rs==="Positif"?"var(--green)":v.rs==="Négatif"?"#a86b6b":"#b8860b";h+=`<div style="padding:12px 0;border-bottom:1px solid #f0ebe0"><div style="display:flex;justify-content:space-between;font-size:14px"><b>${esc(v.tp)} — ${esc(v.rp)}</b><span class="mt" style="font-size:13px">${v.dt}</span></div><p style="margin:5px 0 3px;font-size:13px;color:#5a4e3c;line-height:1.5">${esc(v.nt)}</p><span style="font-size:12px;font-weight:700;color:${col}">${esc(v.rs)}</span></div>`;});
   h+=`</div><div class="card"><h4>Commandes</h4>`;
   if(co.length===0)h+=`<p style="color:#bbb;font-size:14px">Aucune commande</p>`;
   co.forEach(o=>{h+=`<div style="padding:12px 0;border-bottom:1px solid #f0ebe0"><div style="display:flex;justify-content:space-between;font-size:14px"><b class="wt">${fmt(o.am)}</b><span class="mt" style="font-size:13px">${o.dt}</span></div><p style="margin:4px 0;font-size:13px;color:#5a4e3c">${esc(o.pr)}</p></div>`;});
@@ -320,7 +490,9 @@ function renderForm(){
     h+=`<div><label class="lbl">Type</label><select class="inp" onchange="S.fd.t=this.value">${opts(TYPES,fd.t)}</select></div>`;
     h+=`<div><label class="lbl">Commercial</label><select class="inp" onchange="S.fd.rp=this.value">${opts(S.reps,fd.rp)}</select></div>`;
     h+=`<div><label class="lbl">Contact</label><input class="inp" value="${esc(fd.ct||'')}" oninput="S.fd.ct=this.value" placeholder="Nom du contact"></div>`;
+    h+=`<div><label class="lbl">Prénom (pour la fête)</label><input class="inp" value="${esc(fd.fn||'')}" oninput="S.fd.fn=this.value" placeholder="Prénom exact (ex: Jean, Marie...)"></div>`;
     h+=`<div><label class="lbl">Téléphone</label><input class="inp" value="${esc(fd.ph||'')}" oninput="S.fd.ph=this.value" placeholder="04 XX XX XX XX"></div>`;
+    h+=`<div><label class="lbl">Date de naissance</label><input type="date" class="inp" value="${fd.bd||''}" onchange="S.fd.bd=this.value"></div>`;
     h+=`<div><label class="lbl">Email</label><input class="inp" value="${esc(fd.em||'')}" oninput="S.fd.em=this.value"></div>`;
     h+=`<div><label class="lbl">Département</label><select class="inp" onchange="S.fd.dp=this.value">${opts(DEPTS,fd.dp)}</select></div>`;
     h+=`<div class="full"><label class="lbl">Adresse</label><input class="inp" value="${esc(fd.ad||'')}" oninput="S.fd.ad=this.value"></div>`;
@@ -336,44 +508,38 @@ function renderForm(){
   h+=`</div></div>`;return h;
 }
 
+// ─── TEAM ───
+function renderTeam(){
+  const colors=['#722f37','#4e8f58','#6b87ad','#c49a2e','#8b6bab','#9e9484'];
+  let h=`<div style="margin-bottom:24px"><h2 style="font-size:22px">Gestion de l'équipe</h2><p class="mt" style="font-size:14px;margin-top:4px">Ajoutez ou retirez des commerciaux.</p></div>`;
+  h+=`<div class="add-rep-row"><input class="inp" style="flex:1;max-width:300px;background:#fff" placeholder="Prénom du nouveau commercial..." id="nri" value="${esc(S.newRepName)}" oninput="S.newRepName=this.value" onkeydown="if(event.key==='Enter')doAddRep()"><button class="btn btn-p" onclick="doAddRep()">+ Ajouter</button></div>`;
+  h+=`<div class="team-grid">`;
+  S.reps.forEach((rep,i)=>{const rc=S.clients.filter(c=>c.rp===rep);const rv=S.visits.filter(v=>v.rp===rep);const ca=rc.reduce((a,c)=>a+c.ca,0);const me=rep===S.user;
+    h+=`<div class="team-card"><div style="display:flex;align-items:center;gap:16px;flex:1;flex-wrap:wrap">
+      <div class="team-name"><div style="width:42px;height:42px;border-radius:50%;background:${colors[i%6]}15;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:${colors[i%6]}">${esc(rep.charAt(0))}</div>${esc(rep)}${me?'<span class="badge" style="background:#722f3715;color:#722f37">Vous</span>':''}</div>
+      <div class="team-stats"><span><b>${rc.length}</b> clients</span><span><b>${rv.length}</b> visites</span><span><b>${fmt(ca)}</b></span></div>
+    </div>
+    <button class="btn btn-sm ${rc.length>0?'btn-s':'btn-danger'}" onclick="doRemoveRep(${i})" ${me?'disabled style="opacity:0.3;cursor:not-allowed"':''}>${rc.length>0?'Réaffecter d\'abord':'Supprimer'}</button></div>`;
+  });
+  h+=`</div>`;return h;
+}
+
 // ─── Actions ───
 function doLogin(n){S.user=n;R();}
 function doLogout(){S.user=null;R();}
 function switchTab(t){S.tab=t;S.sel=null;S.form=null;R();}
 function selectClient(id){S.sel=S.clients.find(c=>c.id===id);S.form=null;S.tab='clients';R();}
-function openNewClient(){S.form='newclient';S.sel=null;S.tab='clients';S.fd={n:"",t:"GMS",ct:"",ph:"",em:"",ad:"",dp:"73 - Savoie",rp:S.user,st:"Prospect",nt:"",ca:0};R();}
+function openNewClient(){S.form='newclient';S.sel=null;S.tab='clients';S.fd={n:"",t:"GMS",ct:"",fn:"",ph:"",em:"",ad:"",dp:"73 - Savoie",rp:S.user,st:"Prospect",nt:"",ca:0,bd:"",fn:""};R();}
 function openEditClient(id){S.form='editclient';S.fd={...S.clients.find(x=>x.id===id)};R();}
 function openNewVisit(){S.form='newvisit';S.sel=null;S.tab='visits';S.fd={cid:S.clients[0]?.id||"",rp:S.user,dt:new Date().toISOString().slice(0,10),tp:"Suivi",nt:"",rs:"En attente"};R();}
 function openNewVisitFor(cid){S.form='newvisit';S.fd={cid,rp:S.user,dt:new Date().toISOString().slice(0,10),tp:"Suivi",nt:"",rs:"En attente"};R();}
-
 function doAddClient(){const fd=S.fd;if(!fd.n){toast("Nom du client requis");return;}S.clients.push({...fd,id:"c"+Date.now(),cr:new Date().toISOString().slice(0,10),ca:Number(fd.ca)||0});S.form=null;persist();toast("Client ajouté !");R();}
 function doEditClient(){const fd=S.fd;S.clients=S.clients.map(c=>c.id===fd.id?{...fd,ca:Number(fd.ca)||0}:c);S.sel={...fd,ca:Number(fd.ca)||0};S.form=null;persist();toast("Client mis à jour !");R();}
 function doAddVisit(){const fd=S.fd;if(!fd.cid||!fd.dt||!fd.tp){toast("Remplissez tous les champs");return;}S.visits.push({...fd,id:"v"+Date.now()});S.form=null;persist();toast("Visite enregistrée !");R();}
 function updateStage(cid,st){S.clients=S.clients.map(c=>c.id===cid?{...c,st}:c);if(S.sel&&S.sel.id===cid)S.sel={...S.sel,st};persist();toast("Stade mis à jour !");R();}
 async function doReset(){if(!confirm("Réinitialiser toutes les données ?"))return;const d=await apiReset();if(d){S.reps=d.reps||[];S.clients=d.clients||[];S.visits=d.visits||[];S.orders=d.orders||[];}toast("Données réinitialisées");R();}
-
-// ─── Team actions ───
-function doAddRep(){
-  const name=S.newRepName.trim();
-  if(!name){toast("Entrez un prénom");return;}
-  if(S.reps.includes(name)){toast("Ce commercial existe déjà");return;}
-  S.reps.push(name);
-  S.newRepName="";
-  persist();
-  toast(name+" ajouté à l'équipe !");
-  R();
-}
-function doRemoveRep(i){
-  const name=S.reps[i];
-  if(name===S.user){toast("Vous ne pouvez pas vous supprimer");return;}
-  const rc=S.clients.filter(c=>c.rp===name);
-  if(rc.length>0){toast(name+" a "+rc.length+" client(s). Réaffectez-les d'abord.");return;}
-  if(!confirm("Supprimer "+name+" de l'équipe ?"))return;
-  S.reps.splice(i,1);
-  persist();
-  toast(name+" retiré de l'équipe");
-  R();
-}
+function doAddRep(){const name=S.newRepName.trim();if(!name){toast("Entrez un prénom");return;}if(S.reps.includes(name)){toast("Ce commercial existe déjà");return;}S.reps.push(name);S.newRepName="";persist();toast(name+" ajouté !");R();}
+function doRemoveRep(i){const name=S.reps[i];if(name===S.user){toast("Impossible de vous supprimer");return;}const rc=S.clients.filter(c=>c.rp===name);if(rc.length>0){toast(name+" a "+rc.length+" client(s). Réaffectez-les d'abord.");return;}if(!confirm("Supprimer "+name+" ?"))return;S.reps.splice(i,1);persist();toast(name+" retiré");R();}
 
 // ─── Init ───
 (async function(){
